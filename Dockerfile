@@ -10,7 +10,7 @@ RUN npm run build
 FROM node:lts-alpine
 WORKDIR /app
 COPY package*.json ./
-COPY .env ./
+#COPY .env ./
 RUN npm install --only=production
 COPY --from=builder /src/.next ./.next
 EXPOSE 3000
