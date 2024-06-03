@@ -124,6 +124,8 @@ Suno API currently mainly implements the following APIs:
     If no IDs are provided, all music will be returned.
 - `/api/get_limit`: Get quota Info
 - `/api/extend_audio`: Extend audio length
+- `/api/clip`: Get clip information based on ID passed as query parameter `id`
+- `/api/concat`: Generate the whole song from extensions
 ```
 
 For more detailed documentation, please check out the demo site:
@@ -167,6 +169,17 @@ def get_audio_information(audio_ids):
 def get_quota_information():
     url = f"{base_url}/api/get_limit"
     response = requests.get(url)
+    return response.json()
+
+def get_clip(clip_id):
+    url = f"{base_url}/api/clip?id={clip_id}"
+    response = requests.get(url)
+    return response.json()
+
+def generate_whole_song(clip_id):
+    payloyd = {"clip_id": clip_id}
+    url = f"{base_url}/api/concat"
+    response = requests.post(url, json=payload)
     return response.json()
 
 
@@ -231,6 +244,12 @@ async function getAudioInformation(audioIds) {
 
 async function getQuotaInformation() {
   const url = `${baseUrl}/api/get_limit`;
+  const response = await axios.get(url);
+  return response.data;
+}
+
+async function getClipInformation(clipId) {
+  const url = `${baseUrl}/api/clip?id=${clipId}`;
   const response = await axios.get(url);
   return response.data;
 }
